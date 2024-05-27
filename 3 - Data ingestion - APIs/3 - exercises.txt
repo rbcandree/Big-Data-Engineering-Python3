@@ -1,0 +1,40 @@
+https://www.youtube.com/watch?v=DsJBN7WW0zA
+How to Resize or Extend a Linux Partition/Volume/Disk | (No Swap - Ubuntu)
+
+
+In this assignment we will create a Flask interface for ingesting data.
+
+As we haven't discussed different storage systems, in this assignment your program should just keep the data in memory. That is, store it in a fitting data structure. List, dictionary, whichever fits your use case best.
+
+We will use the classic book store example here. We have 3 routes. One that the end-user uses to sell books into the store, one to list the book inventory and one that the end-user can use to purchase books from the store.
+
+1) 
+Implement the route:
+/sell/
+
+This route is accessed via POST method. The data is delivered in a JSON.
+
+When the interface gets a "sell request", it should insert the item into the inventory. The items should have the following information: Title, Author, Year of Publication.
+
+An id is associated with each individual book by the program. This id is shown in the response from the /list/ route and it is referenced by the /purchase/ route.
+
+This first assignment is worth 2 points.
+
+2)
+/list/
+This route is accessed via GET method only. It returns a list of the items currently in the inventory, showing their index and the information.
+
+3)
+/purchase/<item id>
+This route is accessed via GET method. The route checks if the item referenced by the <item id> is in the inventory. If the item is in the inventory it is removed from there and an ‘ok’ -response is sent to the client. If there are no items with <item id> in the inventory a ‘not found’ response is sent to the client.
+
+4)
+Implement a separate Python script to generate books into the book store. You can use the following code snippet as a starting point.
+
+import requests
+
+rreply = requests.post('http://localhost:5000/sell/', json={"title": "book","author":"Esteri","year_of_publication":1990})
+print(rreply.status_code)
+print(rreply.json())
+
+Think of a way to randomize some of the input data so that you can use the script to feed 100 books into the book store easily, without need to write 100 JSONs manually.

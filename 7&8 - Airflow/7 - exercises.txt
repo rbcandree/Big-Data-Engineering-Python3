@@ -1,0 +1,25 @@
+1.)
+Follow this tutorial to install Airflow and Astro CLI:
+https://www.datacamp.com/tutorial/getting-started-with-apache-airflow
+
+Remember to fix the port settings in the config file if you are running this on your VM with the postgreSQL installation.
+It's probably beneficial to actually read the tutorial text through.
+
+2.)
+Implement a DAG that prints "Hello World!" every hour.
+
+a) using python
+b) using bash
+
+3.)
+Implement a DAG with two tasks:
+A -> B
+
+-set the dag_id as "Sequental tasks"
+-set the start date  to the past, and catchup to True
+-Task A uses PythonOperator to print "This is from Task A"
+-Task B uses BashOperator to echo "This is from task B"
+-use the Airflow GUI to check on the running tasks.
+
+4.)
+In the context of a data pipeline, what would you use Airflow for? Is it always useful, if not what kinds of limitations does it have? A short couple sentence answer in your own words suffices.

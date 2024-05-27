@@ -1,0 +1,78 @@
+1)
+a) Install postgresql on your virtual machine.
+Follow the instructions given here. Read these carefully, there's a lot to learn:
+https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-22-04-quickstart
+https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart
+
+There are newer versions available but version 14 is just fine for our purposes.
+Instead of "sammy" create a user and database called "bde".
+Make sure you remember the password.
+
+As a solution take a screenshot of the conninfo
+
+b) Read through the following tutorial:
+https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-create-table/
+
+Logged into the bde -database, create a database table:
+
+CREATE TABLE measurements (
+  measurement_id SERIAL PRIMARY KEY,  
+  measurement INTEGER NOT NULL, 
+  measurement_unit VARCHAR (255) NOT NULL 
+);
+
+As a solution, take a screenshot of the output of psql commands \d and \dt after creating the table.
+
+2)
+Follow this tutorial to install psycopg2 which is the Python module that we will be using to connect to postgreSQL from Python code. 
+You don't need to go through the whole thing, just enough to solve this exercise.
+NOTE: you may need to install pip:
+sudo apt install python3-pip
+
+https://wiki.postgresql.org/wiki/Psycopg2_Tutorial
+
+As a solution, implement python script that executes SELECT version() in our database and print the result.
+The script also generates 100 rows of randomized measurement data into the measurements table. You can freely choose what kind of measurement unit you want (temperature, humidity, whatever you want).
+After generating the data, the script queries the table for 10 highest values of the measurement field and prints those on screen.
+
+3)
+Install MongoDB. Use the following tutorial to help. Only take the 4 first steps. Name the admin user as bde.
+https://www.cherryservers.com/blog/install-mongodb-ubuntu-22-04
+https://www.cherryservers.com/blog/how-to-install-and-start-using-mongodb-on-ubuntu-20-04
+
+4)
+Access mongodb with the mongosh shell.
+Create a database called dbe.
+Create a database user for that database called dbeuser with a password and role readWrite for the database dbe.
+Create a collection called books by inserting a document into that collection with db.books.insertOne()
+Use .find() function to query the collection for what you just inserted there.
+
+You can use this for help:
+https://www.mongodbtutorial.org/mongodb-crud/
+
+There were instructions for creating dbs and users in the previous exercises tutorial.
+As a solution, return the list of used commands and a screenshot of the added document.
+
+5)
+Install pymongo with pip:
+pip3 install pymongo
+
+We will be using this to connect to our mongodb from python script.
+Read through the following tutorial for the basics of how to use pymongo:
+https://pymongo.readthedocs.io/en/stable/tutorial.html
+
+In order to connect to the mongo instance running in your localhost use the following pattern:
+from pymongo import MongoClient
+
+client = MongoClient('localhost',
+                     username='your_database_username',
+                     password='that_users_password')
+
+As a solution, connect to mongo with a python script, query an existing collection and print the result of find_one() function on that collection.
+
+6)
+Implement a flask interface with two routes:
+- one that can be used to POST JSON's to and which inserts those JSONs into a collection within your mongoDB
+- another one that can be accessed with a GET request and which returns a JSON of all the documents in the said collection
+
+You will likely need to have two helper scripts. One for generating data into the first route and one for requesting the documents from the second route.

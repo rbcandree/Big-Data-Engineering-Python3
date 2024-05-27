@@ -1,0 +1,34 @@
+1.) Install Virtualbox
+The following web pages can be useful:
+-Official, rather heavy: https://www.virtualbox.org/manual/ch01.html
+-Sufficient, much lighter: https://devopscube.com/virtual-box-tutorial/
+
+- download ubuntu desktop 22.04 image from: https://ubuntu.com/download/desktop
+- install the image on a virtual box virtual machine
+- make sure to memorize the user+password you use during the installation, you will need these later.
+- go through this short primer for linux command: https://www.digitalocean.com/community/tutorials/a-linux-command-line-primer
+-can be launched from the GUI with the "terminal" application
+
+2.) Install Mosquitto MQTT broker by executing the following set of commands in Ubuntu terminal:
+
+- sudo apt update
+- sudo add-apt-repository ppa:mosquitto-dev/mosquitto-ppa
+- sudo apt install mosquitto mosquitto-clients
+
+Check the version of mosquitto installed on your system:
+- mosquitto -version
+
+Check that the mosquitto service is running and enable it so that it is launched when the virtual machine is powered up:
+- sudo systemctl status mosquitto
+- sudo systemctl enable mosquitto
+
+Use the following web pages to test that your mosquitto works by subscribing to a topic "/testtopic" and publishing a message "testing testing 1 2 3" on it with the mosquitto_sub and mosquitto_sub commands.
+https://mosquitto.org/man/mosquitto_sub-1.html
+https://mosquitto.org/man/mosquitto_pub-1.html
+
+3.) Implement a Python program that publishes messages to the topic "/example/1" every 0.5 seconds. The program publishes integer numbers starting from 1 and raising the value by 1 on every publish. 
+That is, it publishes integers in order starting from 1.
+Check with mosquitto_sub that the messages are really being published onto the topic.
+
+4.) Implement a Python program that subscribes to "/example/1". On every message that the program sees on that channel, it multiplies the integer value by 2 and publishes the result on "/example/2".
+Check with mosquitto_sub that the messages are really being published onto the topic.

@@ -1,0 +1,5 @@
+Apache Airflow tutorial
+https://www.datacamp.com/tutorial/getting-started-with-apache-airflow
+
+Apache Airflow - DAGs
+https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dags.html

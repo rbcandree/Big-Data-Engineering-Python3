@@ -1,0 +1,45 @@
+1.)
+Explain in your own words the main differences between scaling a Kafka system and a traditional SQL system. Why are these differences significant?
+
+2.)
+Kafka uses timestamps and offsets to organize messages. Explain how this is done and how it is related to Kafka partitions.
+
+3.)
+Go through the following pyspark tutorial including installing pyspark on your virtual machine:
+https://www.datacamp.com/tutorial/pyspark-tutorial-getting-started-with-pyspark
+(Steps 1-4 are required, 5 and 6 are optional.)
+
+4.)
+a) Create a pyspark dataframe from the following information:
+id, name, salary
+100, Esteri, 5700
+110, Uolevi, 2200
+202, Kalervo, 3333
+250, Albert, 2310
+300, Mia, 1750
+
+(check spark.createDataFrame())
+
+b) Add a fourth column called Temporary. Randomize this value for every person. Possible values are True and False.
+
+c) Show only those dataframe rows where the value of Temporary field is false and the amount of salary is greater than 2300.
+
+5.)
+a) Create a pyspark dataframe with the following properties:
+
+-two columns, "id" and "salary"
+-randomize the amount of salary from interval [1000, 6000]
+
+b)
+You can define your own functions to handle spark data:
+
+from pyspark.sql.functions import udf
+
+def my_value_modifying_function(value):
+  # returns None if the value is less than 10, otherwise returns the value as is.
+  return None if value < 10 else value
+
+# register our user defined function with return type integer
+nullify_small_udf = udf(my_value_modifying_function, IntegerType())
+
+With this information, define and run your own udf which randomly removes 20% of the values in your dataframe. Use None value to denote removed values.

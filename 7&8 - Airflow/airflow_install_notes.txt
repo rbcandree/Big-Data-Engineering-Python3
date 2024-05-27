@@ -1,0 +1,38 @@
+pip install apache airflow
+
+We'll use Astro CLI to here to dodge some of the configuration steps.
+https://docs.astronomer.io/
+
+Installing the newest version:
+curl -sSL install.astronomer.io | sudo bash -s
+
+can be uninstalled by just removing the directory:
+sudo rm /usr/local/bin/astro
+
+Astro expects docker to be installed on the system.
+https://docs.docker.com/desktop/install/ubuntu/
+*(install using the apt repository)
+
+When done, remember to run hello-world to make sure that everything is working:
+sudo docker run hello-world
+
+systemctl --user enable docker-desktop
+systemctl --user stop docker-desktop
+
+mkdir example
+cd example
+sudo astro dev init
+
+Now that we have docker and astro CLI installed, we are ready to start the project:
+sudo astro dev start
+Note: you'll need to sudo this. our user isn't in the docker group.
+
+Once everything has been downloaded you can browse to https://localhost:8080/ to check airflowUI.
+This takes some time.
+
+This can fail because we already have postgres running in the default port, let's fix this by modifying the config.yaml in our project directorys hidden .astro subdirectory.
+
+Before working with the DAG implemention, make sure you have pandas installed:
+pip install pandas
+
+sudo service docker start

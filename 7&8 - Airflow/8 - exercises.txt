@@ -1,0 +1,56 @@
+1.)
+Implement a DAG that decides between two tasks based on which day of the week it currently is. 
+If it is a working day we run a task that prints "Gotta work" and if it's saturday or sunday we run a task that prints "It's weekend". 
+Use branching to choose between these two tasks. You may find datetime.today().weekday() to be useful here.
+
+
+2.)
+Assume that you have the following DAG. Draw the DAG as a diagram and explain how you figured it out. Can you always deduct the graph diagram like this from given code?
+
+***
+import datetime as dt
+
+from airflow import DAG
+from airflow.operators.bash import BashOperator
+from airflow.operators.dummy import DummyOperator
+from airflow.utils.task_group import TaskGroup
+from airflow.utils.trigger_rule import TriggerRule
+
+dag = DAG(
+    dag_id="parallel_tasks",
+    description="Many tasks in parallel",
+    default_args={"owner": "Airflow"},
+    schedule_interval="@daily",
+    start_date=dt.datetime(2021, 1, 1),
+    end_date=dt.datetime(2021, 1, 15),
+)
+
+def create_task(idx, trigger_rule=TriggerRule.ALL_SUCCESS):
+    return BashOperator(
+        task_id=f"task_{idx}",
+        bash_command=f"echo 'task_{idx} done'",
+        trigger_rule=trigger_rule
+    )
+
+def failing_task(idx):
+    return BashOperator(
+        task_id=f"task_{idx}",
+        bash_command=f"echo 'task_{idx} failed'; exit -1"
+    )
+
+def at_least_one_success(group_id):
+    with TaskGroup(group_id=group_id) as tg:
+        all_done = DummyOperator(task_id="all_done", trigger_rule=TriggerRule.ALL_DONE)
+        one_success = DummyOperator(task_id="one_success", trigger_rule=TriggerRule.ONE_SUCCESS)
+        both_done = DummyOperator(task_id="both_done", trigger_rule=TriggerRule.ALL_SUCCESS)
+        [all_done, one_success] >> both_done
+    return tg
+
+with dag:
+    left = [create_task(x) for x in ("a", "b", "c")]
+    left.append(failing_task("d"))
+    right = [create_task(x) for x in ("e", "f", "g", "h")]
+
+    left >> at_least_one_success("at_least_one_success") >> right
+
+***
